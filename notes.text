@@ -1,0 +1,24 @@
+
+**********
+Post
+**********
+ID
+[data-content-id] [data-content-id]
+
+title
+.entry-title a .text
+
+author.name
+.entry-byline a .text
+
+author.link
+.entry-byline a [href]
+
+author.photo
+.entry-headline .photo.avatar [src]
+
+time
+.entry-byline .match(on February 8, 2018 at 8:42pm)
+
+body
+section.entry-content.cf .html
