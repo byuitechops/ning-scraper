@@ -48,3 +48,5 @@ entry-content .html
 
 replies
 ul li
+
+JSON.stringify(moment('November 11 2017 5:42am','MMMM DD YYYY h:mma'))
