@@ -79,9 +79,8 @@ async function scrapeComments(blogid){
     } catch(e){
         console.log(e)
     }
-}
-
-async function main(){
+    // Associated Main function
+    /* eslint-disable */
     var blogs = JSON.parse(fs.readFileSync('blogs.json','utf-8'))
     var jumpSize = 10
     var comments = []
@@ -92,5 +91,9 @@ async function main(){
         comments.push(...chunk.filter(n => n))
     }
     fs.writeFileSync('comments.json',JSON.stringify(comments))
+    /* eslint-enable */
+}
+
+async function main(){
 }
 main()
