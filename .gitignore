@@ -3,4 +3,5 @@
 *.zip
 csvs2/
 node_modules/
+graveyard.js
 temp.*

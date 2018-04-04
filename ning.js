@@ -1,4 +1,3 @@
-const got = require('got')
 const cookie = require('cookie')
 const url = require('url')
 const { URL } = url
