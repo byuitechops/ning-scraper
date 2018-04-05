@@ -43,18 +43,26 @@ function PushMessage(message,rootID = message.id,parentID,nodeID = (NodeMap[mess
     return
   }
   let authorID
-  try {
+  if(message.author.link){
     authorID = message.author.link.match(/\w+$/)[0]
-    authorID = memberMap.find(row => row.NingId == authorID).UserName
-  } catch(e){}
+    var found = memberMap.find(row => row.NingId == authorID)
+    if(found){
+      authorID = found.UserName
+    }
+    if(!authorID){
+      authorID = message.author.link.match(/\w+$/)[0]
+    }
+  } else {
+    authorID = "UNKNOWN"
+  }
   // Push the message
   Messages.push({
     "Message ID": message.id,
     "Node ID": nodeID,
     "Root ID": rootID,
     "Date": message.time,
-    "User ID": authorID||"UNKNOWN",
-    "Name": authorID && (n => n && n.Name)(memberMap.find(row => row.UserName == authorID)),
+    "User ID": authorID,
+    // "Name": authorID && (n => n && n.Name)(memberMap.find(row => row.UserName == authorID)),
     "Parent ID":parentID,
     "Subject":message.subject, 
     "Body":message.body?message.body.replace(/\n/g,''):'<p>This comment has been deleted</p>',
