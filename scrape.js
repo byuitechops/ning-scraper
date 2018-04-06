@@ -86,4 +86,8 @@ async function main(){
   fs.writeFileSync('archive.json',JSON.stringify(groups))
 }
 
+<<<<<<< HEAD
 main().catch(console.error)
+=======
+main().catch(console.error)
+>>>>>>> b4c5b51ba7b77f940dbe3bbd6d5e45b730a0a1b0

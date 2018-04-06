@@ -3,6 +3,8 @@ const util = require('util')
 const d3 = require('d3-dsv')
 const path = require('path')
 
+let counter = 1
+
 const look = data => console.log(util.inspect(data,{depth:1,maxArrayLength:1}))
 
 let groupPosts = require('./archive')
@@ -36,6 +38,7 @@ const GroupMembers = []
 const Tags = []
 
 function PushMessage(message,rootID = message.id,parentID,nodeID = (NodeMap[message.forum]||'Archive_Group_Discussions')){
+  message.id = message.id || "DeletedComment:"+counter++
   if(new Date(message.time) < new Date('2016') || (nodeID == 'Archive' && new Date(message.time) < new Date('2017-9'))){
     return
   }
@@ -43,23 +46,20 @@ function PushMessage(message,rootID = message.id,parentID,nodeID = (NodeMap[mess
   try {
     authorID = message.author.link.match(/\w+$/)[0]
     authorID = memberMap.find(row => row.NingId == authorID).UserName
-  } catch(e){
-    // look(message)
-    authorID = undefined
-  }
+  } catch(e){}
   // Push the message
   Messages.push({
     "Message ID": message.id,
     "Node ID": nodeID,
     "Root ID": rootID,
     "Date": message.time,
-    "User ID": authorID,
-    "Name": (n => n && n.Name)(memberMap.find(row => row.UserName == authorID)),
+    "User ID": authorID||"UNKNOWN",
+    "Name": authorID && (n => n && n.Name)(memberMap.find(row => row.UserName == authorID)),
     "Parent ID":parentID,
     "Subject":message.subject, 
-    "Body":message.body?message.body.replace(/\n/g,''):'',
+    "Body":message.body?message.body.replace(/\n/g,''):'<p>This comment has been deleted</p>',
     "Labels":message.labels && message.labels.join(','),
-    "Key":message.key && message.key.join(','),
+    "Tags":message.tags && message.tags.join(','),
     _type:message.subject?'post':'comment',
     _url:message.url,
   })
