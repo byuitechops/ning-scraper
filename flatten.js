@@ -10,7 +10,7 @@ const look = data => console.log(util.inspect(data,{depth:1,maxArrayLength:1}))
 let groupPosts = require('./archive')
 let file = fs.readFileSync('frog.json','utf-8')
 let data = JSON.parse(file.replace('var data = ',''))
-let memberMap = d3.csvParse(fs.readFileSync('everyone.csv','utf-8'))
+let memberMap = d3.csvParse(fs.readFileSync('newEveryone.csv','utf-8'))
 let NodeMap = {
   blogs:'Blog',
   'working-with-students':'Student_Engagement',
@@ -47,9 +47,8 @@ function PushMessage(message,rootID = message.id,parentID,nodeID = (NodeMap[mess
     authorID = message.author.link.match(/\w+$/)[0]
     var found = memberMap.find(row => row.NingId == authorID)
     if(found){
-      authorID = found.UserName
-    }
-    if(!authorID){
+      authorID = found.UserName || 'NING:'+found.NingId
+    } else {
       authorID = message.author.link.match(/\w+$/)[0]
     }
   } else {
@@ -62,7 +61,7 @@ function PushMessage(message,rootID = message.id,parentID,nodeID = (NodeMap[mess
     "Root ID": rootID,
     "Date": message.time,
     "User ID": authorID,
-    // "Name": authorID && (n => n && n.Name)(memberMap.find(row => row.UserName == authorID)),
+    // "Name": (n => n && n.Name)(memberMap.find(row => row.UserName == authorID)),
     "Parent ID":parentID,
     "Subject":message.subject, 
     "Body":message.body?message.body.replace(/\n/g,''):'<p>This comment has been deleted</p>',

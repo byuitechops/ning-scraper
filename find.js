@@ -25,8 +25,6 @@ var users = d3.csvParse(fs.readFileSync('Users.csv','utf-8'))
 var emails = oi(users).objectify((emails,user) => emails[user.ExternalEmail] = (emails[user.ExternalEmail] || []).concat([user]))
 // emails = oi(emails).filter((users,email) => email.match(/@byui.edu$/i))
 
-console.log(emails['davashby@gmail.com'])
-
 emails = oi(emails).map((users,email) => {
   if(users.length > 1){
     var filtered = users.filter(user => !user.UserName.match(/^cct_|^bsc_|^Test_|^ftc_|^it_|^ol_|^path_|^tgl_|^tc_|^ta_|^cert|@byui.edu/i))
